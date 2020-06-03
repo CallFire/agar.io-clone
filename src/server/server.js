@@ -166,7 +166,7 @@ function removeFood() {
 }
 
 function movePlayer(player) {
-    if (player.type === "spectate") {
+    if (player === undefined || player.type === "spectate") {
         return;
     }
     for(var i=0; i<player.cells.length; i++)
@@ -1040,6 +1040,7 @@ function moveloop() {
         if(users[idx].lastHeartbeat < new Date().getTime() - c.maxHeartbeatInterval) {
             sockets[users[idx].id].emit('kick', 'Last heartbeat received over ' + c.maxHeartbeatInterval + 'ms ago.');
             sockets[users[idx].id].disconnect();
+            continue; // do not loop on disconnected players
         }
 
         movePlayer(users[idx]);
